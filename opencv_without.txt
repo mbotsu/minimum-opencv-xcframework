@@ -1,0 +1,5 @@
+--without video --without videoio --without ml \
+--without highgui --without viz --without photo \
+--without dnn --without gapi --without flann \
+--without features2d --without calib3d \
+--without objdetect --without stitching
