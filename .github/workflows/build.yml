@@ -70,9 +70,15 @@ jobs:
             echo "  \"Xcode\": \"$(xcodebuild -version)\"" >> Release.txt
             echo "}" >> Release.txt
             echo "\`\`\`" >> Release.txt
-      
+      - name: Bump version and push tag
+        id: bump
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: false
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           body_path: Release.txt
           files: opencv/opencv2.xcframework.zip
+          tag_name: ${{ steps.bump.outputs.new_tag }}
