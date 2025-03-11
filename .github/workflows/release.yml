@@ -9,7 +9,10 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
+    - uses: ./.github/workflows/build.yml
+    - name: Xcode Version
+      run: |
+        echo "XCODE_VERSION=$(xcodebuild -version)" >> $GITHUB_OUTPUT
           
   release:
     needs: build
@@ -40,9 +43,9 @@ jobs:
           echo "\`\`\`json" >> Release.txt
           echo "{" >> Release.txt
           echo "  \"DownloadSize\": $(stat --printf=%s opencv2.xcframework.zip)," >> Release.txt
-          echo "  \"Checksum\": \"$(sha256sum opencv2.xcframework.zip | cut -d ' ' -f 1)\"," >> Release.txt
-          echo "  \"OpenCV\": \"${{ steps.get_version.outputs.VERSION }}\"," >> Release.txt
-          echo "  \"Xcode\": \"$(xcodebuild -version)\"" >> Release.txt
+          echo "  \"Checksum\": $(sha256sum opencv2.xcframework.zip | cut -d ' ' -f 1)," >> Release.txt
+          echo "  \"OpenCV\": \"${VERSION}\"," >> Release.txt
+          echo "  \"Xcode\": \"${XCODE_VERSION}\"" >> Release.txt
           echo "}" >> Release.txt
           echo "\`\`\`" >> Release.txt
 
