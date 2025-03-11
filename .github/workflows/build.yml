@@ -8,6 +8,7 @@ on:
 env:
   DEVELOPER_DIR: /Applications/Xcode_16.2.0.app
   OPENCV_VERSION: "4.11.0"
+  TAG_NAME: "xcode_16.2.0"
 
 jobs:
   build:
@@ -53,13 +54,6 @@ jobs:
         working-directory: opencv
         run: zip -ry opencv2.xcframework.zip build/opencv2.xcframework
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: opencv2.xcframework.zip
-          path: opencv/opencv2.xcframework.zip
-          if-no-files-found: error
-
       - name: Put zip info to Release.txt
         run: |
             echo "\`\`\`json" >> Release.txt
@@ -75,4 +69,4 @@ jobs:
         with:
           body_path: Release.txt
           files: opencv/opencv2.xcframework.zip
-          tag_name: $(sha256sum opencv/opencv2.xcframework.zip | cut -d ' ' -f 1)
+          tag_name: ${{ env.TAG_NAME }}
