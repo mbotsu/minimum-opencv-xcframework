@@ -49,9 +49,9 @@ jobs:
           python3 platforms/apple/build_xcframework.py \
               `cat $GITHUB_WORKSPACE/minimum-opencv-xcframework/opencv_without.txt` \
               --iphoneos_archs=arm64 \
-              --visionos_archs=arm64 \
-              --visionsimulator_archs=arm64 \
-              --disable-bitcode -o build
+              --iphonesimulator_archs=arm64 \
+              --build_only_specified_archs \
+              -o build
 
       - name: Zip artifact
         working-directory: opencv
