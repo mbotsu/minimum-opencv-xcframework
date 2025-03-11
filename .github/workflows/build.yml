@@ -63,3 +63,20 @@ jobs:
           name: opencv2.xcframework.zip
           path: opencv/opencv2.xcframework.zip
           if-no-files-found: error
+
+      - name: Put zip info to Release.txt
+        run: |
+            echo "\`\`\`json" >> Release.txt
+            echo "{" >> Release.txt
+            echo "  \"DownloadSize\": $(stat --printf=%s opencv2.xcframework.zip)," >> Release.txt
+            echo "  \"Checksum\": $(sha256sum opencv2.xcframework.zip | cut -d ' ' -f 1)," >> Release.txt
+            echo "  \"OpenCV\": \"${ steps.get_version.outputs.VERSION }\"," >> Release.txt
+            echo "  \"Xcode\": \"$(xcodebuild -version)\"" >> Release.txt
+            echo "}" >> Release.txt
+            echo "\`\`\`" >> Release.txt
+      
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: Release.txt
+          files: opencv2.xcframework.zip
