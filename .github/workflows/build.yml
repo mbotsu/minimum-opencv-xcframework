@@ -66,7 +66,7 @@ jobs:
             echo "{" >> Release.txt
             echo "  \"DownloadSize\": $(stat --printf=%s opencv2.xcframework.zip)," >> Release.txt
             echo "  \"Checksum\": $(sha256sum opencv2.xcframework.zip | cut -d ' ' -f 1)," >> Release.txt
-            echo "  \"OpenCV\": \"${ env.OPENCV_VERSION  }\"," >> Release.txt
+            echo "  \"OpenCV\": \"${{ env.OPENCV_VERSION  }}\"," >> Release.txt
             echo "  \"Xcode\": \"$(xcodebuild -version)\"" >> Release.txt
             echo "}" >> Release.txt
             echo "\`\`\`" >> Release.txt
