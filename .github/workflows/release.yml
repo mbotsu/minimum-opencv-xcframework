@@ -38,6 +38,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          body: "Version: ${steps.get_version.outputs.VERSION}\nChecksum: $(shasum -a 256 opencv2.xcframework.zip | cut -d ' ' -f 1)\nDEVELOPER_DIR: ${DEVELOPER_DIR}"
+          body: "Version: ${steps.get_version.outputs.VERSION}\nChecksum: $(shasum -a 256 opencv2.xcframework.zip | cut -d ' ' -f 1)\nDEVELOPER_DIR: ${env.DEVELOPER_DIR}"
           files: opencv2.xcframework.zip
           tag_name: ${{ steps.get_version.outputs.VERSION }}
