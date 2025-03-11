@@ -7,6 +7,7 @@ on:
 
 env:
   DEVELOPER_DIR: /Applications/Xcode_16.2.0.app
+  OPENCV_VERSION: "4.11.0"
 
 jobs:
   build:
@@ -27,16 +28,11 @@ jobs:
         with:
           python-version: '3.11' 
 
-      - name: Get version
-        id: get_version
-        working-directory: minimum-opencv-xcframework
-        run: echo "VERSION=$(cat .version)" >> $GITHUB_OUTPUT
-
       - name: Checkout OpenCV
         uses: actions/checkout@v3
         with:
           repository: opencv/opencv
-          ref: refs/tags/${{ steps.get_version.outputs.VERSION }}
+          ref: refs/tags/${{ env.OPENCV_VERSION }}
           path: 'opencv'
       
       - name: Build xcframework
@@ -70,7 +66,7 @@ jobs:
             echo "{" >> Release.txt
             echo "  \"DownloadSize\": $(stat --printf=%s opencv2.xcframework.zip)," >> Release.txt
             echo "  \"Checksum\": $(sha256sum opencv2.xcframework.zip | cut -d ' ' -f 1)," >> Release.txt
-            echo "  \"OpenCV\": \"${ steps.get_version.outputs.VERSION }\"," >> Release.txt
+            echo "  \"OpenCV\": \"${ env.OPENCV_VERSION  }\"," >> Release.txt
             echo "  \"Xcode\": \"$(xcodebuild -version)\"" >> Release.txt
             echo "}" >> Release.txt
             echo "\`\`\`" >> Release.txt
@@ -79,4 +75,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: Release.txt
-          files: opencv2.xcframework.zip
+          files: opencv/opencv2.xcframework.zip
