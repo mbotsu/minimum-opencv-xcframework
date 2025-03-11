@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          path: opencv-spm
+          path: minimum-opencv-xcframework
 
       - uses: actions/setup-python@v5
         with:
@@ -29,7 +29,7 @@ jobs:
 
       - name: Get version
         id: get_version
-        working-directory: opencv-spm
+        working-directory: minimum-opencv-xcframework
         run: echo "VERSION=$(cat .version)" >> $GITHUB_OUTPUT
 
       - name: Checkout OpenCV
@@ -47,7 +47,7 @@ jobs:
         run: |
           pip3 install pathlib
           python3 platforms/apple/build_xcframework.py \
-              `cat opencv_without.txt` \
+              `cat $GITHUB_WORKSPACE/minimum-opencv-xcframework/opencv_without.txt` \
               --iphoneos_archs=arm64 \
               --visionos_archs=arm64 \
               --visionsimulator_archs=arm64 \
