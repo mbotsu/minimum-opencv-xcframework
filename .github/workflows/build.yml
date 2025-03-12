@@ -52,14 +52,14 @@ jobs:
               -o build
 
       - name: Zip artifact
-        working-directory: opencv
-        run: zip -ry opencv2.xcframework.zip build/opencv2.xcframework
+        working-directory: opencv/build
+        run: zip -ry opencv2.xcframework.zip opencv2.xcframework
 
       - name: Put zip info to Release.txt
         run: |
             echo "\`\`\`json" >> Release.txt
             echo "{" >> Release.txt
-            echo "  \"Checksum\": \"$(sha256sum opencv/opencv2.xcframework.zip | cut -d ' ' -f 1)\"," >> Release.txt
+            echo "  \"Checksum\": \"$(sha256sum opencv/build/opencv2.xcframework.zip | cut -d ' ' -f 1)\"," >> Release.txt
             echo "  \"OpenCV\": \"${{ env.OPENCV_VERSION  }}\"," >> Release.txt
             echo "  \"Xcode\": \"$(xcodebuild -version | tr '\n' ' ')\"" >> Release.txt
             echo "}" >> Release.txt
@@ -68,5 +68,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           body_path: Release.txt
-          files: opencv/opencv2.xcframework.zip
+          files: opencv/build/opencv2.xcframework.zip
           tag_name: ${{ env.TAG_NAME }}
