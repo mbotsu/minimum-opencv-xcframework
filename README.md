@@ -4,7 +4,7 @@
 using imgproc, imgcodecs.  
 All other modules are excluded.  
 
-- [without setting](opencv_with.out)
+- [without setting](opencv_without.txt)
 
 ## Build Setting
 
