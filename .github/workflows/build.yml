@@ -47,7 +47,7 @@ jobs:
           python3 platforms/apple/build_xcframework.py \
               `cat $GITHUB_WORKSPACE/minimum-opencv-xcframework/opencv_without.txt` \
               --iphoneos_archs=arm64 \
-              --iphonesimulator_archs=arm64 \
+              --iphonesimulator_archs=x86_64,arm64 \
               --build_only_specified_archs \
               -o build
 
